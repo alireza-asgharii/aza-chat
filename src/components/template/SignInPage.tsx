@@ -4,6 +4,7 @@ import { signIn } from "@/actions/authActions";
 import { useState } from "react";
 
 import { useToast } from "@/components/ui/use-toast"
+import { createClient } from "@/utils/supabase/client";
 
 const SignInPage = () => {
   const { toast } = useToast()
@@ -33,6 +34,17 @@ const SignInPage = () => {
       })
     }
   };
+
+  const supabase = createClient()
+
+  const signInHandler  = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: location.origin + "/auth/callback"
+      }
+    })
+  }
 
   return (
     <div className="bg-gray-100 flex items-center justify-center h-screen">
@@ -83,6 +95,9 @@ const SignInPage = () => {
             </button>
           </div>
         </form>
+        <div>
+          <button onClick={signInHandler} className="border-2 px-2 py-1 rounded-md my-3">Login By Github</button>
+        </div>
       </div>
     </div>
   );
