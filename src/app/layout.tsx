@@ -8,7 +8,7 @@ import Header from "@/components/layout/Header";
 
 import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans", fallback: ['system-ui', 'arial'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
