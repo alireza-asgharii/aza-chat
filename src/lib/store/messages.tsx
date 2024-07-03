@@ -16,18 +16,32 @@ export type IMessage = {
 
 interface MessagesState {
   messages: IMessage[];
-  actiosMessage: IMessage | undefined;
+  actionMessage: IMessage | undefined;
   addMessage: (message: IMessage) => void;
   optimisticDeleteMessage: (messageId: string) => void;
+  optimisticEditMessage: (message: IMessage) => void;
   setActionMessage: (message: IMessage | undefined) => void;
 }
 
 export const useMessage = create<MessagesState>()((set) => ({
   messages: [],
-  actiosMessage: undefined,
+  actionMessage: undefined,
   addMessage: (message) =>
     set((state) => ({ messages: [...state.messages, message] })),
   optimisticDeleteMessage: (messageId) =>
-    set((state) => ({ messages: state.messages.filter(item => item.id !== messageId) })),
-  setActionMessage: (message) => set(() => ({ actiosMessage: message })),
+    set((state) => ({
+      messages: state.messages.filter((item) => item.id !== messageId),
+    })),
+  optimisticEditMessage: (message) =>
+    set((state) => {
+      const messageList = state.messages;
+      const messageIndex = messageList.findIndex(
+        (item) => item.id === message.id!
+      );
+      messageList[messageIndex].text = message.text;
+      messageList[messageIndex].is_edit = message.is_edit;
+
+      return { messages: [...messageList] };
+    }),
+  setActionMessage: (message) => set(() => ({ actionMessage: message })),
 }));
