@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/layout/Header";
 
 import { Toaster } from "@/components/ui/toaster"
+import { Toaster as Sonner } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", fallback: ['system-ui', 'arial'] });
 
@@ -34,11 +35,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="max-w-[1500px] mx-auto px-3">
+          <div className="max-w-[1500px] mx-auto px-3 ">
             <Header />
-            <main>{children}</main>
+            <main className="min-h-[90vh]">{children}</main>
           </div>
           <Toaster />
+          <Sonner position="top-center" />
         </ThemeProvider>
       </body>
     </html>
