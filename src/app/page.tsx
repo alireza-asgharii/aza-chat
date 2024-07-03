@@ -1,7 +1,12 @@
-export default  function Home() {
-  
+import ChatInput from "@/components/module/ChatInput";
+import ChatMessages from "@/components/module/ChatMessages";
+import Message from "@/components/module/Message";
 
-  return <>
-    Homepage
-  </>;
+export default function Home() {
+  return (
+    <div className="h-[90vh] flex justify-between flex-col px-1">
+      <ChatMessages />
+      <ChatInput />
+    </div>
+  );
 }
