@@ -35,6 +35,11 @@ const Message = ({ message }: { message: IMessage }) => {
           <span className="text-xs">
             {new Date(message?.created_at).toDateString()}
           </span>
+          {message.is_edit && (
+            <span className="text-xs pl-3">
+              edited
+            </span>
+          )}
           <p className="font-medium">{message?.text}</p>
         </div>
         {message?.users?.id === user?.id && <MessgaeMenu message={message} />}
@@ -55,7 +60,14 @@ const MessgaeMenu = ({ message }: { message: IMessage }) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>Action</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            document.getElementById("trigger-edit")?.click();
+            setActionMessage(message);
+          }}
+        >
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             document.getElementById("trigger-delete")?.click();
