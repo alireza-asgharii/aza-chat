@@ -12,12 +12,12 @@ import { v4 as uuidv4 } from "uuid";
 const ChatInput = () => {
   const supabase = createClient();
   const { user } = useUser((state) => state);
-  const addMessage = useMessage((state) => state.addMessage);
+  const { addMessage, setOptimisticIds } = useMessage();
 
   const sendMessageHandler = async (text: string) => {
     if (!text.trim()) {
-      toast.error("plase type a message !!")
-      return
+      toast.error("plase type a message !!");
+      return;
     }
     const newMessage = {
       created_at: new Date().toISOString(),
@@ -34,10 +34,11 @@ const ChatInput = () => {
     };
     // optimistic message
     addMessage(newMessage as IMessage);
+    setOptimisticIds(newMessage.id);
 
     const { data, status, error } = await supabase
       .from("messages")
-      .insert({ text });
+      .insert({ text, id: newMessage.id });
     if (error) {
       toast.error(error.message);
     }
