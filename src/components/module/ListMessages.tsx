@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import { useUser } from "@/lib/store/user";
+import { ArrowDown } from "lucide-react";
 
 const ListMessages = () => {
   const {
@@ -20,6 +21,7 @@ const ListMessages = () => {
   // const { user } = useUser((state) => state);
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [isScrollTop, setIsScrollTop] = useState(false);
+  const [notification, setNotification] = useState(0);
 
   useEffect(() => {
     const channel = supabase
@@ -48,6 +50,10 @@ const ListMessages = () => {
             toast.error(error.message);
           } else {
             addMessage(newMessage as IMessage);
+
+            if (isScrollTop) {
+              setNotification((prev) => prev + 1);
+            }
           }
         }
       )
@@ -81,15 +87,16 @@ const ListMessages = () => {
 
     if (!scrollContainer) return;
 
-    scrollContainer.scrollTop = scrollContainer.scrollHeight;
     if (!isScrollTop) {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   const scrollStatus = () => {
-    const scrollState = scrollRef.current.scrollTop;
-    if (scrollState <= 0) {
+    const scrollTop = scrollRef.current.scrollTop;
+    console.log(scrollTop);
+    if (scrollTop < 0) {
       if (isScrollTop) return;
       setIsScrollTop(true);
     } else {
@@ -98,6 +105,7 @@ const ListMessages = () => {
   };
 
   const scrollToBottomHandler = () => {
+    setNotification(0);
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   };
 
@@ -107,14 +115,25 @@ const ListMessages = () => {
       ref={scrollRef}
       onScroll={scrollStatus}
     >
-      {isScrollTop && (
-        <div
-          onClick={scrollToBottomHandler}
-          className="fixed right-14 bottom-32 p-2 rounded-md bg-white text-black z-10 cursor-default md:cursor-pointer"
-        >
-          to bottom
-        </div>
-      )}
+      <div className="absolute right-1/2 bottom-[100px]">
+        {notification && isScrollTop ? (
+          <div
+            onClick={scrollToBottomHandler}
+            className="p-1 px-2 rounded-full bg-white text-black z-10 cursor-default md:cursor-pointer"
+          >
+            {notification} new message
+          </div>
+        ) : (
+          isScrollTop && (
+            <div
+              onClick={scrollToBottomHandler}
+              className="p-1 rounded-full bg-white text-black z-10 cursor-default md:cursor-pointer"
+            >
+              <ArrowDown />
+            </div>
+          )
+        )}
+      </div>
       <DeleteAlert />
       <EditAlert />
       <div>
