@@ -95,7 +95,6 @@ const ListMessages = () => {
 
   const scrollStatus = () => {
     const scrollTop = scrollRef.current.scrollTop;
-    console.log(scrollTop);
     if (scrollTop < 0) {
       if (isScrollTop) return;
       setIsScrollTop(true);
