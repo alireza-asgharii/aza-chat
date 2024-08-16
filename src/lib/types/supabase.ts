@@ -1,3 +1,4 @@
+// npx supabase gen types --lang=typescript --project-id "qtghoyyiceynpjarsbpl" --schema public > src/lib/types/supabase.ts
 export type Json =
   | string
   | number
@@ -47,18 +48,24 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          last_seen: string | null
+          online: boolean | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
+          last_seen?: string | null
+          online?: boolean | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
+          last_seen?: string | null
+          online?: boolean | null
         }
         Relationships: [
           {
