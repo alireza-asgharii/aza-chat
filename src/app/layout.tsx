@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/layout/Header";
 
-import { Toaster } from "@/components/ui/toaster"
-import { Toaster as Sonner } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import InitialProvider from "@/components/provider/InitialProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", fallback: ['system-ui', 'arial'] });
 
@@ -29,19 +30,21 @@ export default function RootLayout({
           inter.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="max-w-[1500px] mx-auto px-3 ">
-            <Header />
-            <main className="min-h-[90vh]">{children}</main>
-          </div>
-          <Toaster />
-          <Sonner position="top-center" />
-        </ThemeProvider>
+        <InitialProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="max-w-[1500px] mx-auto px-3 ">
+              <Header />
+              <main className="min-h-[90vh]">{children}</main>
+            </div>
+            <Toaster />
+            <Sonner position="top-center" />
+          </ThemeProvider>
+        </InitialProvider>
       </body>
     </html>
   );
