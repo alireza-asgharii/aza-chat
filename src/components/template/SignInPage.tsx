@@ -27,6 +27,7 @@ const SignInPage = () => {
       toast({
         title: res.message,
       })
+      window.location.reload()
     } else if (res.error) {
       toast({
         title: res.error,
