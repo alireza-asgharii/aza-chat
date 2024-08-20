@@ -5,8 +5,7 @@ import Message from "@/components/module/Message";
 export default function Home() {
   return (
     <div className="h-[90vh] flex justify-between flex-col px-1 relative">
-      <ChatMessages />
-      <ChatInput />
+      home page
     </div>
   );
 }
